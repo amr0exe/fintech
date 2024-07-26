@@ -22,8 +22,7 @@ import CustomInput from "./CustomInput"
 import { authFormSchema } from "@/lib/utils"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { signUp } from "@/lib/actions/user.actions"
-import SignIn from "@/app/(auth)/sign-in/page"
+import { signIn, signUp } from "@/lib/actions/user.actions"
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -61,18 +60,19 @@ function AuthForm({ type } : { type: string }) {
             }
 
             if(type === 'sign-in') {
-                const response = await SignIn({
+                const response = await signIn({
                     email: data.email,
                     password: data.password
                 })
 
                 if(response) router.push("/")
             }
-        } catch (error) {
+         } catch (error) {
             console.log(error)
         } finally {
             setIsLoading(false)
         }
+    }
     return (
         <section className="auth-form">
             <header className="flex flex-col gap-5 md:gap-8">
@@ -199,5 +199,6 @@ function AuthForm({ type } : { type: string }) {
         </section>
     )
 }
+
 
 export default AuthForm
